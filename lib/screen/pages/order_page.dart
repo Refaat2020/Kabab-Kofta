@@ -90,7 +90,7 @@ class _OrderPageState extends State<OrderPage> {
               Text('515 EGP',style: TextStyle(color: Colors.black45,fontWeight: FontWeight.bold),),
             ],
           ),
-          SizedBox(height: 15.0,),
+          SizedBox(height: 5.0,),
 
           Container(
             height: 40,

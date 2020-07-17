@@ -1,7 +1,5 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food/screen/data/food_data.dart';
 import 'package:food/screen/models/food_model.dart';
 import 'package:food/widget/bought_food.dart';
 import 'package:food/widget/food_category.dart';
@@ -9,18 +7,36 @@ import 'package:food/widget/home_top_info.dart';
 import 'package:food/widget/search_filed.dart';
 
 class HomePage extends StatefulWidget {
+
+
+
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<FoodData>_foods = foods;
+//  List<FoodData>_foods = foods;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: Colors.black
+        ),
+      ),
+      drawer: Drawer(),
       body: ListView(
-        padding: EdgeInsets.only(top: 50 , left: 20 , right: 20),
+        padding: EdgeInsets.only(top: 10 , left: 20 , right: 20),
         children: <Widget>[
           HomeTopInfo(),
           FoodCategory(),
@@ -46,8 +62,8 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 15.0,),
           Column(
-            children:
-            _foods.map(_builldFoodItems).toList(),
+//            children:
+//            widget.foodModel.foods.map(_builldFoodItems).toList(),
 
           ),
         ],
