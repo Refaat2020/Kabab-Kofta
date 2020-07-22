@@ -1,28 +1,37 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:food/helper/constant.dart';
 import 'package:food/screen/models/food_model.dart';
+import 'package:food/state/foodMob.dart';
 import 'package:food/widget/big_button.dart';
 import 'package:food/widget/form_field.dart';
+import 'package:get_it/get_it.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class AddFoodItem extends StatefulWidget {
+class AddFoodItem extends StatefulObserverWidget {
+  final FoodData food;
+
+  AddFoodItem({this.food});
+
   @override
   _AddFoodItemState createState() => _AddFoodItemState();
 }
 
 class _AddFoodItemState extends State<AddFoodItem> {
-   String name;
+   String name ;
    String imagePath;
-   String Price ;
-   String Category;
+
+   _AddFoodItemState({this.name, this.imagePath, this.price, this.category,
+      this.description, this.discount});
+
+  String price ;
+   String category;
    String description;
    String discount;
    GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
-
-  FoodData foodData;
+   GetIt locator = GetIt.instance;
 //  TextEditingController _foodTitleController = TextEditingController();
 //  TextEditingController _categoriesController = TextEditingController();
 //  TextEditingController _foodDescriptionController = TextEditingController();
@@ -36,14 +45,16 @@ class _AddFoodItemState extends State<AddFoodItem> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-
-        title: Text("Add Food" , style: TextStyle(fontWeight:FontWeight.bold,color: Colors.black),),
+        leading: IconButton(icon: Icon(Icons.close,color: Colors.blueAccent,), onPressed:(){
+          Navigator.pop(context);
+        }),
+        title: Text(widget.food !=null ?"Update Food Item" : "add Food Item" , style:GoogleFonts.acme(fontWeight:FontWeight.bold,color: Colors.black,fontSize: 22),),
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
 
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 0.0 , horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: FormBuilder(
@@ -63,6 +74,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                 ),
                 SizedBox(height: 20,),
                 BuildForm(
+                  initial: widget.food==null?"":widget.food.name,
                  save: ( value){
                  name = value;
                  },
@@ -80,8 +92,9 @@ class _AddFoodItemState extends State<AddFoodItem> {
                 ),
                  SizedBox(height: 10,),
                 BuildForm(
+                  initial: widget.food==null?"":widget.food.category,
                   save: ( value){
-                    Category = value;
+                    category = value;
                   },
                   valid: [
                   FormBuilderValidators.required(errorText: "please add the categories number"),
@@ -96,6 +109,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                 ),
                 SizedBox(height: 10,),
                  BuildForm(
+                   initial: widget.food == null ?"":widget.food.description,
                    save: ( value){
                      description = value;
                    },
@@ -113,8 +127,9 @@ class _AddFoodItemState extends State<AddFoodItem> {
                 ),
                 SizedBox(height: 10,),
                 BuildForm(
+                  initial: widget.food==null?"":widget.food.price.toString(),
                   save: ( value){
-                    Price = value;
+                    price = value;
                   },
                   valid: [
                   FormBuilderValidators.required(errorText: "please add the price for this item"),
@@ -131,6 +146,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                 ),
                 SizedBox(height: 10,),
                 BuildForm(
+                  initial: widget.food== null ? "":widget.food.discount.toString(),
                   save: ( value){
                     discount = value;
                   },
@@ -147,39 +163,46 @@ class _AddFoodItemState extends State<AddFoodItem> {
                 ),
                 SizedBox(height: 20,),
                 Observer(
-                  builder: (contex){
+                  builder: (context){
                   return BigButton(
-                    name: "Add Food Item",
-                    onTap: (){
+                    name: widget.food ==null ?"Add Food Item" : "Update Food Item",
+                    onTap: ()async{
 
 
                       if(fbKey.currentState.validate())
                       {
                         fbKey.currentState.save();
 
-//                        model.addFood(FoodData(
-//                          name: name,
-//                          description: description,
-//                          Category: Category,
-//                          discount: double.parse(discount),
-//                          Price:double.parse(Price) ,
-//                        ),context).then((value) => Navigator.pop(context));
+                        if(widget.food!=null){
+                       //i want update this item
+                          Map<String,dynamic>updateFoodItem= {
+                            "title":name,
+                            "category":category,
+                            "price":double.parse(price),
+                            "description":description,
+                            "discount":double.parse(discount),
+                          };
+                           await locator<FoodStore>().updateFood(updateFoodItem, widget.food.id , context).then((value) => Navigator.pop(context));
 
+                        }else{
+                          locator<FoodStore>().addFood(FoodData(
+                            name: name,
+                            description: description,
+                            category: category,
+                            discount: double.parse(discount),
+                            price:double.parse(price) ,
+                          ), context).then((value) => Navigator.pop(context));
+                        }
                       }
                     },
                   );
                   },
-
                 ),
               ],
             ),
-          )
-
+          ),
         ),
       ),
     );
-  }
-  void onSubmit(Function addFood){
-
   }
 }

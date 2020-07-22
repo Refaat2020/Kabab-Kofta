@@ -1,8 +1,7 @@
 
-import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
-import 'package:food/admin/add_food_item.dart';
+import 'package:food/screen/pages/payment_page.dart';
 import 'package:food/widget/profile_tile.dart';
 import 'package:food/widget/small_button.dart';
 
@@ -18,34 +17,10 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        actions: <Widget>[
-          IconButton(
-              icon: IconButton(
-               icon: Icon(Icons.exit_to_app),
-                onPressed: (){},
-              ),
-              onPressed: null)
-        ],
-        iconTheme: IconThemeData(color: Colors.grey.shade600),
-      ),
-      drawer: Drawer(
-        child: Text("jkjkjljl"),
-      ),
+
       body: ListView(
         children: <Widget>[
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 17),
-              child: Text(
-                "Profile",
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25),
-              ),
-          ),
+
           Padding(
             padding: const EdgeInsets.only(left: 40.0, top: 17.0),
             child: Row(
@@ -86,7 +61,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     SmallButton(
                     nameOfButton: "edit",
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddFoodItem()));
                     },
                     ),
                   ],
@@ -133,6 +107,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Colors.blueGrey,
                   ),
                   ProfileTile(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=>PaymentCard()));
+                    },
                     text: "Payment",
                     icon: Icons.payment,
                   ),

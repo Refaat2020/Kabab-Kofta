@@ -1,6 +1,5 @@
 
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -18,9 +17,11 @@ class BuildForm extends StatefulWidget  {
   TextInputAction action;
 List <FormFieldValidator>valid;
   Function save;
-
+  Function onChange;
+  int maxlength;
+String initial;
  BuildForm({ this.fbKey1,this.hintText, this.style, this.maxLines,
-      this.inputType, this.icon,this.action  ,this.valid ,this.save , this.editingController});
+      this.inputType, this.icon,this.action  ,this.valid ,this.save , this.editingController ,this.initial,this.onChange,this.maxlength});
 
   @override
   _BuildFormState createState() => _BuildFormState();
@@ -33,6 +34,7 @@ class _BuildFormState extends State<BuildForm> {
     return Column(
       children: <Widget>[
         FormBuilderTextField(
+          initialValue: "${widget.initial}",
             attribute: "null",
           autovalidate: false,
 //            controller: editingController,
@@ -48,9 +50,11 @@ class _BuildFormState extends State<BuildForm> {
           keyboardType: widget.inputType,
           validators:widget.valid,
           autofocus: false,
+            onChanged: widget.onChange,
+            maxLength:widget. maxlength,
             textInputAction: widget.action,
             keyboardAppearance: Brightness.light,
-          onChanged: widget.save,
+          onSaved: widget.save,
 
         ),
       ],

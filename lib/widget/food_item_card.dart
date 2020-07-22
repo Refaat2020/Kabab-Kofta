@@ -1,4 +1,5 @@
 
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:food/helper/constant.dart';
@@ -8,16 +9,10 @@ class FoodItemCard extends StatelessWidget {
   final String name;
   final String description;
   final double price;
-//  child: StreamBuilder(
-//  stream: explore,
-//  builder: (context, snapshot) {
-//  return ListView.builder(
-//  itemCount: snapshot.data.documents.length,
-//  itemBuilder:(context , index){
-//
-//  } ,
+  final String category;
 
-  FoodItemCard({this.name, this.description, this.price});
+
+  FoodItemCard({this.name, this.description, this.price , this.category});
 
   @override
   Widget build(BuildContext context) {

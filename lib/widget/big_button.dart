@@ -15,7 +15,7 @@ class BigButton extends StatelessWidget {
         height: 50,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Colors.blue.shade900,
           borderRadius: BorderRadius.circular(25),
         ),
         child: Center(

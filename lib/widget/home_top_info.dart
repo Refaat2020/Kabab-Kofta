@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeTopInfo extends StatelessWidget {
   final textstyle = TextStyle(fontSize: 32.0 , fontWeight: FontWeight.bold);
@@ -16,11 +17,18 @@ class HomeTopInfo extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('What would',style: textstyle,),
-              Text('you like to eat?',style: textstyle,),
+              Text('What would',style: GoogleFonts.acme(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 22,
+              ),),
+              Text('you like to eat?',style:  GoogleFonts.zcoolXiaoWei(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 26,
+              ),),
             ],
           ),
-          Icon(Icons.notifications_none ,size: 30,color: Theme.of(context).primaryColor,),
         ],
       ),
     );
