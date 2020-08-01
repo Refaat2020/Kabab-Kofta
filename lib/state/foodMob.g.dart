@@ -53,6 +53,23 @@ mixin _$FoodStore on FoodMob, Store {
     return _$fetchFoodsAsyncAction.run(() => super.fetchFoods());
   }
 
+  final _$updateFoodAsyncAction = AsyncAction('FoodMob.updateFood');
+
+  @override
+  Future<bool> updateFood(
+      Map<String, dynamic> foodData, String foodId, BuildContext context) {
+    return _$updateFoodAsyncAction
+        .run(() => super.updateFood(foodData, foodId, context));
+  }
+
+  final _$deleteFoodItemAsyncAction = AsyncAction('FoodMob.deleteFoodItem');
+
+  @override
+  Future<bool> deleteFoodItem(String foodId, BuildContext context) {
+    return _$deleteFoodItemAsyncAction
+        .run(() => super.deleteFoodItem(foodId, context));
+  }
+
   @override
   String toString() {
     return '''

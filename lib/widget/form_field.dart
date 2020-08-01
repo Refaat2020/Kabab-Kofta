@@ -43,7 +43,7 @@ class _BuildFormState extends State<BuildForm> {
             hintStyle: widget.style,
             prefixIcon: Icon(widget.icon),
             border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(25),
             ),
           ),
           maxLines: widget.maxLines,

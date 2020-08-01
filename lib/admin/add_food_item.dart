@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:food/helper/constant.dart';
+import 'package:food/helper/locator.dart';
 import 'package:food/screen/models/food_model.dart';
 import 'package:food/state/foodMob.dart';
 import 'package:food/widget/big_button.dart';
 import 'package:food/widget/form_field.dart';
-import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddFoodItem extends StatefulObserverWidget {
@@ -31,7 +31,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
    String description;
    String discount;
    GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
-   GetIt locator = GetIt.instance;
+
 //  TextEditingController _foodTitleController = TextEditingController();
 //  TextEditingController _categoriesController = TextEditingController();
 //  TextEditingController _foodDescriptionController = TextEditingController();
@@ -163,6 +163,7 @@ class _AddFoodItemState extends State<AddFoodItem> {
                 ),
                 SizedBox(height: 20,),
                 Observer(
+
                   builder: (context){
                   return BigButton(
                     name: widget.food ==null ?"Add Food Item" : "Update Food Item",

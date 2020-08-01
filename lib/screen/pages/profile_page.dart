@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:food/screen/pages/edit_profile.dart';
 import 'package:food/screen/pages/payment_page.dart';
 import 'package:food/widget/profile_tile.dart';
 import 'package:food/widget/small_button.dart';
@@ -17,7 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      backgroundColor:  Colors.grey.shade50,
       body: ListView(
         children: <Widget>[
 
@@ -61,6 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     SmallButton(
                     nameOfButton: "edit",
                     onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=>EditProfile()));
                     },
                     ),
                   ],

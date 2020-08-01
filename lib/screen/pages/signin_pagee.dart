@@ -1,185 +1,163 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:food/helper/constant.dart';
+import 'package:food/helper/locator.dart';
 import 'package:food/screen/pages/signup_page.dart';
 import 'package:food/screen/src/main_screen.dart';
+import 'package:food/state/user_mob.dart';
+import 'package:food/widget/big_button.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-class SignIn extends StatefulWidget {
-
-
+import 'package:food/widget/login_widget.dart';
+class LoginPage extends StatefulWidget{
   @override
-  _SignInState createState() => _SignInState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _SignInState extends State<SignIn> {
+class _LoginPageState extends State<LoginPage> {
+  GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
+  FlutterSecureStorage storage = FlutterSecureStorage();
 
-  final _formKey = GlobalKey<FormState>();
-  String email, password;
-bool _toogleVisbilty = false;
+  String _password;
+
+  String _email;
+void navi()async{
+  String value = await storage.read(key: "idToken",);
+  if(value != null)
+  {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>MainScreen()));
+  }else{
+    return;
+  }
+
+}
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    navi();
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: Image.asset("asset/images/background.png",fit: BoxFit.fill,),
+        body: ListView(
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                image: DecorationImage(image: AssetImage("asset/images/back.png"),fit: BoxFit.cover),
+
+                color: Colors.black,
+
+//                borderRadius: BorderRadius.all( Radius.circular(40)),
+              ),
+              child: ListTile(
+
+                contentPadding: EdgeInsets.only(left: 0,top: 30),
+                title: Container(
+
+                  margin:  EdgeInsets.symmetric(horizontal: 40,vertical: 50),
+                  child:Text("Food Delivery App",style: GoogleFonts.aBeeZee(
+                      color: Colors.white,fontSize: 35),),
                 ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[//logo
-                      Center(child: Image.asset("asset/images/7ati.jpg",height: 120,
-                        width: 220,alignment: Alignment.center,)),
-                      SizedBox(height: 13,),
-                      Text("El Haty", style: GoogleFonts.roboto(
-                          textStyle: TextStyle(
-                              fontSize: 27,color: Colors.white,
-                              letterSpacing: 1
-                          )
-                      ),),
-                      SizedBox(height: 18,),
-                      Container(
-                        width: 180,
-                        child: Text("86 Al Rehab city , cairo", textAlign: TextAlign.center,style: GoogleFonts.roboto(
-                          textStyle: TextStyle(
-                              color: Colors.white54,
-                              letterSpacing: 0.6,
-                              fontSize: 13
-                          ),
-                        ),),
-                      ),
-                      SizedBox(height: 20,),
-                      Text("Sign In", textAlign: TextAlign.center,style: GoogleFonts.roboto(
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          letterSpacing: 1,
-                          fontSize: 23,
-                        ),
-                      ),),
-                      SizedBox(height: 8,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                subtitle: Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: Container(
+                    margin: EdgeInsets.only(top: 10),
+                    height: 800,
+                    decoration: BoxDecoration(
+
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(60)),
+                      color: Colors.white,
+                    ),
+                    child: FormBuilder(
+                     key: fbKey,
+                      child: Column(
                         children: <Widget>[
-                          Text("You'r Delicios meal is Waiting 😋", textAlign: TextAlign.center,style: GoogleFonts.roboto(
-                            textStyle: TextStyle(
-                              color: Colors.white70,
-                              letterSpacing: 1,
-                              fontSize: 17,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 150,vertical: 50),
+                            child: Text("Login",style: GoogleFonts.aBeeZee(
+                              fontSize: 35,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold
+                            ),),
+                          ),
+                          LoginCard(
+                            obscure: false,
+                            textInputType: TextInputType.emailAddress,
+                            name: "Email",
+                            valid: [
+                              FormBuilderValidators.email(errorText: "This field requiers a vaild email address"),
+//                              FormBuilderValidators.pattern("/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})i",),
+                            ],
+                            save: (value){
+                              _email = value;
+                            },
+                          ),
+                          SizedBox(height: 20,),
+                          LoginCard(
+                            obscure: true,
+                            textInputType: TextInputType.visiblePassword,
+                            name: "Password",
+                            valid: [
+                              FormBuilderValidators.required(),
+                              FormBuilderValidators.minLength(6),
+                            ],
+                            save: (value){
+                              _password = value;
+                            },
+                          ),
+                          SizedBox(height: 30,),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Observer(
+                              builder: (BuildContext context){
+                                return BigButton(
+                                  name: "Login",
+                                  color: Colors.black,
+                                  onTap: (){
+                                    if(fbKey.currentState.validate())
+                                    {
+                                      fbKey.currentState.save();
+//                                      checkInternet(context);
+                                  locator<UserStore>().login(_email.trim(), _password, context ,);
+                                    }
+                                  },
+                                );
+                              },
                             ),
-                          ),),
+                          ),
+                          SizedBox(height: 50,),
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (_)=>SignUp()));
+                            },
+                            child: RichText(text: TextSpan(
+                              text: "Don't have any account? Sign Up",
+                              style: GoogleFonts.aBeeZee(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              ),
+
+                            )),
+                          )
                         ],
                       ),
-                      SizedBox(height: 10,),
-                      Form(
-                        autovalidate: true,
-                        key: _formKey,
-                        child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 10,horizontal: 45),
-                          child: Column(
-                            children: <Widget>[
-                              TextFormField(
-                                style: TextStyle(color: Colors.white),
-                                decoration: InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.white)
-                                  ),
-                                  hintText: "Email",hintStyle: TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 15
-                                ),
-                                ),
-                                onSaved: (val){
-                                  email = val;
-                                },
-                              ),
-                              SizedBox(height: 16,),
-                              TextFormField(
-                                style: TextStyle(color: Colors.white),
-
-                                obscureText: _toogleVisbilty,
-                                decoration: InputDecoration(
-                                  fillColor: Colors.white,
-                                  suffixIcon: IconButton(
-                                      icon: _toogleVisbilty ? Icon(Icons.visibility_off,color: Colors.white,) :Icon(Icons.visibility,color: Colors.white,),
-                                      onPressed: (){
-                                        setState(() {
-                                          _toogleVisbilty = !_toogleVisbilty;
-                                        });
-                                      }
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.white)
-                                  ),
-                                  hintText: "Password",hintStyle: TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 15,
-                                ),
-                                ),
-                                onSaved: (val){
-                                  email = val;
-                                },
-                              ),
-                              SizedBox(height: 20,),
-                              GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: double.infinity,
-                                  padding: EdgeInsets.symmetric(vertical: 10,horizontal: 0),
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white),
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: Text("SUBMIT",textAlign: TextAlign.center,style: GoogleFonts.roboto(
-                                      textStyle: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          letterSpacing: 1
-                                      )
-                                  ),),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      Text("OR",style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white60
-                      ),),
-                       SizedBox(height: 10,),
-                       Image.asset("asset/images/fingerprint.png", height: 36, width: 36,),
-                       SizedBox(height: 10,),
-                       GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
-                        },
-                        child: Text("Don't have an account?", style: GoogleFonts.roboto(
-                            textStyle: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 13,
-                                decoration: TextDecoration.underline,
-                                letterSpacing: 0.5
-                            )
-                        ),),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        )
+
+          ],
+        ),
     );
   }
 }

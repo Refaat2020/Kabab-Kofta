@@ -37,6 +37,11 @@ dependencies:
   get_it:
   mobx:
   flutter_mobx:
+  json_annotation:
+  data_connection_checker:
+  flutter_secure_storage:
+
+
 
 
 
@@ -45,6 +50,7 @@ dev_dependencies:
     sdk: flutter
   build_runner:
   mobx_codegen:
+  json_serializable:
 
 
 # For information on the generic Dart part of this file, see the

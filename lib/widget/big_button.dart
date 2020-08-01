@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 class BigButton extends StatelessWidget {
   final String name;
   final Function onTap;
-  BigButton({this.name , this.onTap});
+  final Color color;
+  BigButton({this.name , this.onTap,this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class BigButton extends StatelessWidget {
         height: 50,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: Colors.blue.shade900,
+          color: color,
           borderRadius: BorderRadius.circular(25),
         ),
         child: Center(

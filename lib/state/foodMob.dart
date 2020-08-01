@@ -3,7 +3,6 @@
 import 'dart:convert';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food/screen/models/food_model.dart';
 import 'package:http/http.dart'as http;
@@ -153,7 +152,7 @@ int get foodlength{
 
             }
               return Future.value(true);
-            } catch (e, s) {
+            } catch (e) {
               return Future.value(false);
             }
           }

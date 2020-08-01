@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:food/admin/add_food_item.dart';
+import 'package:food/helper/constant.dart';
 import 'package:food/state/foodMob.dart';
 import 'package:food/widget/food_item_card.dart';
 import 'package:get_it/get_it.dart';
@@ -21,6 +22,8 @@ class _ExplorePageState extends State<ExplorePage> {
     // TODO: implement initState
     super.initState();
     foodLocator<FoodStore>().fetchFoods();
+    checkInternet(context);
+
 
   }
   @override

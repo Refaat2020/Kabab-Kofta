@@ -1,7 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food/screen/pages/signin_page.dart';
 import 'package:food/screen/pages/signin_pagee.dart';
 import 'package:food/widget/order_card.dart';
 
@@ -95,7 +94,7 @@ class _OrderPageState extends State<OrderPage> {
           Container(
             height: 40,
                 child: RaisedButton(onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>SignIn()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=>LoginPage()));
                 },
                   color: Colors.blue,
                   focusColor: Colors.blue,

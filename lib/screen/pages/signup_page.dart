@@ -1,7 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:food/helper/locator.dart';
 import 'package:food/screen/pages/signin_pagee.dart';
+import 'package:food/state/user_mob.dart';
+import 'package:food/widget/big_button.dart';
+import 'package:food/widget/login_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignUp extends StatefulWidget {
@@ -10,242 +16,165 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final _formKey = GlobalKey<FormState>();
-  String email, password;
-  bool _toogleVisbilty = false;
+  GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
+String firstName;
+String lastName;
+String email;
+String pass;
+String confirmPassword;
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: Image.asset(
-                "asset/images/background.png",
-                fit: BoxFit.fill,
-              ),
+      backgroundColor: Colors.white,
+      body: ListView(
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                  image: DecorationImage(image: AssetImage("asset/images/back.png"),fit: BoxFit.cover),
+              color: Colors.black,
             ),
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  //logo
-                  Center(
-                      child: Image.asset(
-                    "asset/images/7ati.jpg",
-                    height: 130,
-                    width: 200,
-                    alignment: Alignment.center,
-                  )),
-                  SizedBox(
-                    height: 13,
+            child: ListTile(
+
+              contentPadding: EdgeInsets.only(left: 0,top: 30),
+              title: Container(
+
+                margin:  EdgeInsets.symmetric(horizontal: 120,vertical: 10),
+                child:Text("Sign Up",style: GoogleFonts.aBeeZee(
+                    color: Colors.white,fontSize: 40),),
+              ),
+              subtitle: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: Container(
+                  margin: EdgeInsets.only(top: 10),
+                  height: 800,
+                  decoration: BoxDecoration(
+
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(60)),
+                    color: Colors.white,
                   ),
-                  Text(
-                    "El Haty",
-                    style: GoogleFonts.roboto(
-                        textStyle: TextStyle(
-                            fontSize: 27,
-                            color: Colors.white,
-                            letterSpacing: 1)),
-                  ),
-                  SizedBox(
-                    height: 18,
-                  ),
-                  Container(
-                    width: 180,
-                    child: Text(
-                      "86 Al Rehab city,cairo",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.roboto(
-                        textStyle: TextStyle(
-                            color: Colors.white54,
-                            letterSpacing: 0.6,
-                            fontSize: 11),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Text(
-                    "Sign Up",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.roboto(
-                      textStyle: TextStyle(
-                        color: Colors.white,
-                        letterSpacing: 1,
-                        fontSize: 23,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "You'r Delicios meal is Waiting 😋",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.roboto(
-                          textStyle: TextStyle(
-                            color: Colors.white70,
-                            letterSpacing: 1,
-                            fontSize: 17,
+                  child: FormBuilder(
+                    key: fbKey,
+                    autovalidate: true,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 40,),
+                        LoginCard(
+                          obscure: false,
+                          textInputType: TextInputType.text,
+                          name: "First Name",
+                          valid: [
+                            FormBuilderValidators.required(errorText: "This field required"),
+                          ],
+                          save: (value){
+                            firstName =value;
+                          },
+                        ),
+                        SizedBox(height: 10,),
+                        LoginCard(
+                          obscure: false,
+                          textInputType: TextInputType.text,
+                          name: "Last Name",
+                          valid: [
+                            FormBuilderValidators.required(errorText: "This field required"),
+                          ],
+                          save: (value){
+                            lastName =value;
+                          },
+                        ),
+                        SizedBox(height: 10,),
+
+                        LoginCard(
+                          obscure: false,
+                          textInputType: TextInputType.emailAddress,
+                          name: "Email",
+                          valid: [
+                            FormBuilderValidators.email(errorText: "this field is requires is valid email")
+                          ],
+                          save: (value){
+                            email =value;
+                          },
+                        ),
+                        SizedBox(height: 10,),
+                        LoginCard(
+                          obscure: true,
+                          textInputType: TextInputType.visiblePassword,
+                          name: "Password",
+                          valid: [
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.minLength(6),
+                          ],
+                          save: (value){
+                            pass =value;
+                          },
+                        ),
+                        SizedBox(height: 10,),
+                        LoginCard(
+                          obscure: true,
+                          textInputType: TextInputType.text,
+                          name: "Confirm Password",
+                          valid: [
+                            FormBuilderValidators.required(),
+
+                            FormBuilderValidators.minLength(6),
+                          ],
+                          save: (value){
+                            confirmPassword =value;
+                          },
+                        ),
+                        SizedBox(height: 15,),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Observer(
+
+                            builder: (context){
+                              return BigButton(
+                                name: "Sign Up",
+                                color: Colors.black,
+                                onTap: ()async{
+                                  validate();
+
+                                    await locator<UserStore>().signUp(email, pass,firstName,lastName,context);
+//                                    .then((value) => Navigator.push(context, MaterialPageRoute(builder: (_)=>LoginPage())));
+
+                                },
+                              );
+                            },
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Form(
-                    autovalidate: true,
-                    key: _formKey,
-                    child: Container(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 45),
-                      child: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white)),
-                              hintText: "Email",
-                              hintStyle: TextStyle(
-                                  color: Colors.white70, fontSize: 15),
+                        SizedBox(height: 10,),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (_)=>LoginPage()));
+                          },
+                          child: RichText(text: TextSpan(
+                            text: "Already have any account? Sign In",
+                            style: GoogleFonts.aBeeZee(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
                             ),
-                            onSaved: (val) {
-                              email = val;
-                            },
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            obscureText: _toogleVisbilty,
-                            decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                  icon: _toogleVisbilty
-                                      ? Icon(
-                                          Icons.visibility_off,
-                                          color: Colors.white,
-                                        )
-                                      : Icon(
-                                          Icons.visibility,
-                                          color: Colors.white,
-                                        ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _toogleVisbilty = !_toogleVisbilty;
-                                    });
-                                  }),
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white)),
-                              hintText: "Password",
-                              hintStyle: TextStyle(
-                                  color: Colors.white70, fontSize: 15),
-                            ),
-                            onSaved: (val) {
-                              email = val;
-                            },
-                          ),
-                          TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            obscureText: _toogleVisbilty,
-                            decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                icon: _toogleVisbilty
-                                    ? Icon(
-                                        Icons.visibility_off,
-                                        color: Colors.white,
-                                        size: 18,
-                                      )
-                                    : Icon(
-                                        Icons.visibility,
-                                        color: Colors.white,
-                                        size: 18,
-                                      ),
-                                onPressed: () {
-                                  setState(() {
-                                    _toogleVisbilty = !_toogleVisbilty;
-                                  });
-                                },
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white)),
-                              hintText: "Re Password",
-                              hintStyle: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 15,
-                              ),
-                            ),
-                            onSaved: (val) {
-                              email = val;
-                            },
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            width: double.infinity,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 0),
-                            height: 50,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Text(
-                              "CREATE ACCOUNT",
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.roboto(
-                                textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    letterSpacing: 1),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+
+                          )),
+                        )
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => SignIn()));
-                    },
-                    child: Text(
-                      "Already have an account?",
-                      style: GoogleFonts.roboto(
-                          textStyle: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 13,
-                              decoration: TextDecoration.underline,
-                              letterSpacing: 0.5)),
-                    ),
-                  )
-                ],
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+
+        ],
       ),
-    ));
+    );
+  }
+  void validate(){
+    if(fbKey.currentState.validate()) {
+      fbKey.currentState.save();
+    }
   }
 }
