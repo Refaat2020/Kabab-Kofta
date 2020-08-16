@@ -3,6 +3,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:food/helper/locator.dart';
+import 'package:food/state/user_mob.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 TextStyle simpleStyle = TextStyle(fontWeight: FontWeight.bold,fontSize: 16 , color: Colors.black);
@@ -93,7 +95,9 @@ dialogCheckLogOut(BuildContext context){
                 color: Colors.blue.shade900
               ),
             ),
-              onPressed: (){},
+              onPressed: (){
+              locator<UserStore>().signOut(context);
+              },
             shape: RoundedRectangleBorder(
               side: BorderSide(
                 color: Colors.deepPurple.shade900,
@@ -175,7 +179,9 @@ dialogRemoveAccount(BuildContext context){
                   color: Colors.blue.shade900
               ),
             ),
-            onPressed: (){},
+            onPressed: (){
+              locator<UserStore>().deleteAccount(context);
+            },
             shape: RoundedRectangleBorder(
               side: BorderSide(
                 color: Colors.deepPurple.shade900,

@@ -27,7 +27,7 @@ class LoginCard extends StatelessWidget {
           color: Colors.black,
           fontSize: 20,
         ),),
-        subtitle: FormBuilderTextField(
+        subtitle: name != "Password"?FormBuilderTextField(
           initialValue: initial,
           attribute: "Email",
           style: TextStyle(
@@ -41,7 +41,25 @@ class LoginCard extends StatelessWidget {
           showCursor: true,
           keyboardType: textInputType,
           validators: valid,
-          obscureText: false,
+          obscureText: obscure,
+          onSaved: save,
+
+        ):FormBuilderTextField(
+          initialValue: initial,
+          attribute: "password",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 15,
+          ),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+          ),
+          textInputAction: TextInputAction.next,
+          showCursor: true,
+          keyboardType: textInputType,
+          validators: valid,
+          obscureText: true,
+          maxLines: 1,
           onSaved: save,
 
         ),

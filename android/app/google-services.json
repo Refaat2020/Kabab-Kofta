@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "263481097905",
+    "firebase_url": "https://foodapp-5b755.firebaseio.com",
+    "project_id": "foodapp-5b755",
+    "storage_bucket": "foodapp-5b755.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263481097905:android:6f347ec0e7b07a49382c90",
+        "android_client_info": {
+          "package_name": "com.kofta.kbab.food"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263481097905-gc8quvs0qro1or1c7a9ptr9qe4nioqq7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kofta.kbab.food",
+            "certificate_hash": "efc1b85c986fac99ecb98fc2defce851d43ac948"
+          }
+        },
+        {
+          "client_id": "263481097905-vjguosinje38kd7sfu9h5vnimbmggg3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWUjpOv9q2b5F94mRXk8e-cGfgFEsTUvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263481097905-vjguosinje38kd7sfu9h5vnimbmggg3i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

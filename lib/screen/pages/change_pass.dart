@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:food/helper/locator.dart';
+import 'package:food/state/user_mob.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ChangePass extends StatefulWidget {
@@ -169,7 +171,7 @@ String confirmPass;
                 ),
               ),
               onPressed: (){
-                Navigator.of(context).pop();
+                locator<UserStore>().changePass( oldPass, newPass);
               },
               shape: RoundedRectangleBorder(
                 side: BorderSide(

@@ -17,8 +17,8 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   GlobalKey<FormBuilderState> fbKey = GlobalKey<FormBuilderState>();
-String firstName;
-String lastName;
+String username;
+String phoneNumber;
 String email;
 String pass;
 String confirmPassword;
@@ -65,24 +65,24 @@ String confirmPassword;
                         LoginCard(
                           obscure: false,
                           textInputType: TextInputType.text,
-                          name: "First Name",
+                          name: "Username",
                           valid: [
                             FormBuilderValidators.required(errorText: "This field required"),
                           ],
                           save: (value){
-                            firstName =value;
+                            username =value;
                           },
                         ),
                         SizedBox(height: 10,),
                         LoginCard(
                           obscure: false,
                           textInputType: TextInputType.text,
-                          name: "Last Name",
+                          name: "Phone Number",
                           valid: [
                             FormBuilderValidators.required(errorText: "This field required"),
                           ],
                           save: (value){
-                            lastName =value;
+                            phoneNumber =value;
                           },
                         ),
                         SizedBox(height: 10,),
@@ -111,20 +111,7 @@ String confirmPassword;
                             pass =value;
                           },
                         ),
-                        SizedBox(height: 10,),
-                        LoginCard(
-                          obscure: true,
-                          textInputType: TextInputType.text,
-                          name: "Confirm Password",
-                          valid: [
-                            FormBuilderValidators.required(),
 
-                            FormBuilderValidators.minLength(6),
-                          ],
-                          save: (value){
-                            confirmPassword =value;
-                          },
-                        ),
                         SizedBox(height: 15,),
                         Padding(
                           padding: const EdgeInsets.all(4.0),
@@ -137,8 +124,7 @@ String confirmPassword;
                                 onTap: ()async{
                                   validate();
 
-                                    await locator<UserStore>().signUp(email, pass,firstName,lastName,context);
-//                                    .then((value) => Navigator.push(context, MaterialPageRoute(builder: (_)=>LoginPage())));
+                                    await locator<UserStore>().signUp(email, pass,username,phoneNumber,context);
 
                                 },
                               );

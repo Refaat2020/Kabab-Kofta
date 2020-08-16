@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:food/screen/models/user_model.dart';
@@ -12,6 +13,9 @@ part 'user_mob.g.dart';
 class UserStore extends UserMob with _$UserStore {}
 
 abstract class UserMob with Store {
+   @observable
+   FirebaseAuth _fireBaseAuth = FirebaseAuth.instance;
+   @observable
   http.Response response;
   @observable
   List<UserModel> _userList = [];
@@ -43,13 +47,13 @@ abstract class UserMob with Store {
   bool hasError = false;
 
   @action
-  Future addUserInfo(String email,String firstName,String lastName,BuildContext context)async{
+  Future addUserInfo(String email,String username,String phoneNumber,BuildContext context)async{
     try{
       Map<String,dynamic>userData={
         "email":email,
-        "firstName":firstName,
-        "lastName":lastName,
-        "userName":firstName+lastName,
+        "username":username,
+        "phoneNumber":phoneNumber,
+        "address":"",
       };
 
      response = await http.post(
@@ -59,12 +63,9 @@ abstract class UserMob with Store {
 
     UserModel user = UserModel(
       id: responseData['name'],
-//      idToken: userInfo['idToken'],
+    phoneNumber: userData['phoneNumber'],
       email: userData['email'],
-      firstName: userData['firstName'],
-      lastName: userData['lastName'],
       username: userData['username'],
-//      userType: userInfo['userType'],
     );
 
     _userList.add(user);
@@ -78,7 +79,7 @@ abstract class UserMob with Store {
   }
   }
   @action
-  Future signUp(String email, String pass,String firstName,String lastName, BuildContext context) async {
+  Future signUp(String email, String pass,String username,String phoneNumber, BuildContext context) async {
       Map<String,dynamic>authData= {
         "email":email,
         "password":pass,
@@ -91,7 +92,7 @@ abstract class UserMob with Store {
           headers: {'Content-Type': 'application/json'});
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        await addUserInfo(email, firstName,lastName, context);
+        await addUserInfo(email, username,phoneNumber, context);
         _authenticatedUser = UserModel(
           id: responseBody["localId"],
           email: responseBody["email"],
@@ -171,8 +172,10 @@ abstract class UserMob with Store {
     }
   }
 
-  @action
-  Future deleteAccount(String idToken)async{
+  @action///delete account work fine
+  Future deleteAccount(BuildContext context)async{
+    String idToken = await storage.read(key: "idToken");
+
     Map<String,dynamic>idTokens = {
       "idToken":idToken,
     };
@@ -185,15 +188,21 @@ abstract class UserMob with Store {
       Map<String,dynamic>responseBody = json.decode(response.body);
       if(response.statusCode==200)
         {
+          print("delted");
+          storage.delete(key: "idToken");
           userList.remove(idToken);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>LoginPage()));
 
         }
     }catch(e){
-
+      print(e);
     }
   }
-  @action
-  Future changePass(String idToken,String oldPass,String newPass)async{
+
+  @action///change pass work fine
+  Future changePass(String oldPass,String newPass)async{
+
+   String idToken = await storage.read(key: "idToken");
     Map<String,dynamic>data = {
       "idToken":idToken,
       "password":newPass,
@@ -205,15 +214,26 @@ abstract class UserMob with Store {
       Map<String,dynamic>responseBody = json.decode(response.body);
       if(response.statusCode ==200)
         {
+          print("pass Change");
           _authenticatedUser = UserModel(
             idToken: responseBody["idToken"],
+            id: responseBody["localId"],
+
           );
           print(responseBody);
 
 
         }
     }catch(e){
-
+      print(e);
     }
+  }
+
+  @action///signout work fine
+  Future signOut(BuildContext context) async {
+    _fireBaseAuth.signOut();
+    storage.delete(key: "idToken");
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=>LoginPage()));
+    return Future.delayed(Duration.zero);
   }
 }

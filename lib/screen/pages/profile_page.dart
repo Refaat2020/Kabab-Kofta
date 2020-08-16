@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:food/screen/pages/edit_profile.dart';
 import 'package:food/screen/pages/payment_page.dart';
+import 'package:food/screen/pages/shipping.dart';
 import 'package:food/widget/profile_tile.dart';
 import 'package:food/widget/small_button.dart';
 
+import 'change_pass.dart';
 class ProfilePage extends StatefulWidget {
   bool appNotification = true;
   bool locationTracking = true;
@@ -19,6 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:  Colors.grey.shade50,
+
       body: ListView(
         children: <Widget>[
 
@@ -91,6 +94,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Colors.blueGrey,
                   ),
                   ProfileTile(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=>ChangePass()));
+
+                    },
                     text: "Change Password",
                     icon: Icons.visibility,
                   ),
@@ -100,6 +107,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Colors.blueGrey,
                   ),
                   ProfileTile(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute( builder: (_)=>ShippingPage()));
+
+                    },
                     text: "Shipping",
                     icon: Icons.shopping_cart,
                   ),

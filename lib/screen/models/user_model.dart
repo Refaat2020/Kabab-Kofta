@@ -1,4 +1,5 @@
 
+import 'package:food/screen/models/shipping_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
@@ -9,12 +10,11 @@ class UserModel{
   String idToken;
   String username;
   String email;
-  String firstName;
-  String lastName;
+  ShippingModel address;
   String phoneNumber;
   String userType;
 
-  UserModel({this.username, this.email, this.firstName, this.lastName,
+  UserModel({this.username, this.email, this.address,
       this.phoneNumber, this.userType , this.id,this.idToken});
 
   factory UserModel.fromJson(Map<String,dynamic> json)=> _$UserModelFromJson(json);

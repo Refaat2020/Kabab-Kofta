@@ -1,10 +1,13 @@
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:food/db/creditcard_info.dart';
 import 'package:food/helper/constant.dart';
 import 'package:food/helper/locator.dart';
 import 'package:food/screen/pages/signup_page.dart';
@@ -13,6 +16,7 @@ import 'package:food/state/user_mob.dart';
 import 'package:food/widget/big_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:food/widget/login_widget.dart';
+import 'package:hive/hive.dart';
 class LoginPage extends StatefulWidget{
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -27,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   String _email;
 void navi()async{
   String value = await storage.read(key: "idToken",);
+  print("id:::$value");
   if(value != null)
   {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>MainScreen()));
@@ -41,6 +46,8 @@ void navi()async{
     super.initState();
     navi();
   }
+  bool secure = true;
+
   @override
   Widget build(BuildContext context) {
 
@@ -102,7 +109,7 @@ void navi()async{
                           ),
                           SizedBox(height: 20,),
                           LoginCard(
-                            obscure: true,
+                            obscure: secure,
                             textInputType: TextInputType.visiblePassword,
                             name: "Password",
                             valid: [

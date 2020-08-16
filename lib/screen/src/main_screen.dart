@@ -1,12 +1,13 @@
 import 'package:badges/badges.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:food/admin/add_food_item.dart';
+import 'package:food/helper/constant.dart';
 import 'package:food/screen/pages/explore_page.dart';
 import 'package:food/screen/pages/home_page.dart';
 import 'package:food/screen/pages/order_page.dart';
 import 'package:food/screen/pages/profile_page.dart';
 import 'package:food/widget/bottomNavigation.dart';
+import 'package:food/widget/drawer_widgit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -59,14 +60,16 @@ class _MainScreenState extends State<MainScreen> {
                 color: Colors.black, fontSize: 26, fontWeight: FontWeight.bold),
           ),
           actions: <Widget>[
-            IconButton(
+            _currentTabIndex == 0 & 2
+
+            ? IconButton(
                 icon: Icon(
                   Icons.notifications_none,
                   color: Theme.of(context).primaryColor,
                 ),
                 onPressed: (){}
-                ),
-            Badge(
+                )
+            :Badge(
               badgeColor: Colors.red,
               showBadge: true,
               badgeContent: Text("2",style: TextStyle(fontSize: 12,color: Colors.white),),
@@ -84,30 +87,13 @@ class _MainScreenState extends State<MainScreen> {
                   onPressed: (){}
               ),
             ),
+
+            IconButton(icon: Icon(Icons.exit_to_app,color: Colors.grey.shade600,), onPressed: (){
+              dialogCheckLogOut(context);
+            }),
           ],
         ),
-        drawer: Drawer(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                FlatButton.icon(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddFoodItem()));
-                    },
-                    icon: Icon(
-                      Icons.add,
-                      color: Colors.black,
-                    ),
-                    label: Text("Add Food Item")),
-              ],
-            ),
-          ),
-        ),
+        drawer: DrawerIn(),
         bottomNavigationBar: CurvedNavigationBar(
           onTap: (int index) {
             setState(() {
